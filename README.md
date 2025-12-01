@@ -1,24 +1,18 @@
-# aoc
+# 🎄 Advent of Code in Gleam ✨
 
-[![Package Version](https://img.shields.io/hexpm/v/aoc)](https://hex.pm/packages/aoc)
-[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/aoc/)
+My attempt at solving [Advent of Code](https://adventofcode.com/) puzzles using the Gleam programming language! 🌟
 
-```sh
-gleam add aoc@1
-```
-```gleam
-import aoc
+## 🚀 Running Solutions
 
-pub fn main() -> Nil {
-  // TODO: An example of the project in use
-}
-```
-
-Further documentation can be found at <https://hexdocs.pm/aoc>.
-
-## Development
+This project uses [gladvent](https://hexdocs.pm/gladvent/index.html) to run solutions.
 
 ```sh
-gleam run   # Run the project
-gleam test  # Run the tests
+# Create a new day template
+gleam run new <day>
+
+# Run a specific day
+gleam run run <day>
+
+# Run all days
+gleam run run all
 ```
