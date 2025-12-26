@@ -1,3 +1,4 @@
+import gleam/bool
 import gleam/int
 import gleam/list
 import gleam/option.{None, Some}
@@ -47,6 +48,22 @@ fn find_max_joltage(bank: BatteryBank, bank_size: Int) -> Int {
   first_digit * 10 + second_digit
 }
 
+fn find_max_joltage_general(
+  bank: BatteryBank,
+  batteries_turned_on_count: Int,
+  sum: Int,
+) -> Int {
+  use <- bool.guard(when: batteries_turned_on_count == 0, return: sum)
+  let bank_size = bank |> list.length
+  let assert Ok(#(position, digit)) =
+    find_first_max(bank |> list.take(bank_size - batteries_turned_on_count + 1))
+  find_max_joltage_general(
+    list.drop(from: bank, up_to: position + 1),
+    batteries_turned_on_count - 1,
+    sum * 10 + digit,
+  )
+}
+
 pub fn pt_1(input: List(BatteryBank)) -> Int {
   let assert Ok(first_bank) = list.first(input)
   let bank_size = first_bank |> list.length
@@ -54,5 +71,5 @@ pub fn pt_1(input: List(BatteryBank)) -> Int {
 }
 
 pub fn pt_2(input: List(BatteryBank)) {
-  todo as "part 2 not implemented"
+  input |> list.map(find_max_joltage_general(_, 12, 0)) |> int.sum
 }
