@@ -40,15 +40,7 @@ fn find_first_max(ints: List(Int)) -> Result(#(Position, Value), String) {
   |> option.to_result("List was empty")
 }
 
-fn find_max_joltage(bank: BatteryBank, bank_size: Int) -> Int {
-  let assert Ok(#(position, first_digit)) =
-    find_first_max(bank |> list.take(bank_size - 1))
-  let assert Ok(#(_, second_digit)) =
-    find_first_max(bank |> list.drop(position + 1))
-  first_digit * 10 + second_digit
-}
-
-fn find_max_joltage_general(
+fn find_max_joltage(
   bank: BatteryBank,
   batteries_turned_on_count: Int,
   sum: Int,
@@ -57,7 +49,7 @@ fn find_max_joltage_general(
   let bank_size = bank |> list.length
   let assert Ok(#(position, digit)) =
     find_first_max(bank |> list.take(bank_size - batteries_turned_on_count + 1))
-  find_max_joltage_general(
+  find_max_joltage(
     list.drop(from: bank, up_to: position + 1),
     batteries_turned_on_count - 1,
     sum * 10 + digit,
@@ -65,11 +57,9 @@ fn find_max_joltage_general(
 }
 
 pub fn pt_1(input: List(BatteryBank)) -> Int {
-  let assert Ok(first_bank) = list.first(input)
-  let bank_size = first_bank |> list.length
-  input |> list.map(find_max_joltage(_, bank_size)) |> int.sum
+  input |> list.map(find_max_joltage(_, 2, 0)) |> int.sum
 }
 
 pub fn pt_2(input: List(BatteryBank)) {
-  input |> list.map(find_max_joltage_general(_, 12, 0)) |> int.sum
+  input |> list.map(find_max_joltage(_, 12, 0)) |> int.sum
 }
